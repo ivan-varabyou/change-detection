@@ -1,1 +1,142 @@
 /* You can add global styles to this file, and also import other style files */
+/* стили для дерева */
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  &.children {
+    gap: 100px;
+  }
+}
+.children {
+  display: flex;
+  gap: 30px;
+
+  &.root {
+    flex-direction: row;
+  }
+}
+
+.node {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* стили для элементов дерева */
+.components {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+}
+
+.name {
+  font-weight: bold;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 1rem 0 0 0;
+
+  &::before {
+    content: "template";
+    font-size: 0.6rem;
+    margin-top: -0.6rem;
+    position: absolute;
+  }
+}
+
+.components .children {
+  margin-top: 10px;
+}
+
+/* стили для корня дерева */
+.root {
+  padding: 20px;
+  border: none;
+  box-shadow: none;
+}
+
+.button {
+  color: rgb(112, 112, 112);
+  background-color: none;
+  border: none;
+}
+
+.bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  font-size: 0.6rem;
+}
+
+.bar div {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+}
+
+.markForCheck.active {
+  background-color: rgb(0, 121, 21);
+  color: white;
+}
+
+.detectChanges.active {
+  background-color: rgb(204, 74, 51);
+  color: white;
+}
+
+.detach.active {
+  background-color: rgb(0, 0, 0);
+  color: white;
+}
+
+.reattach.active {
+  background-color: rgb(103, 84, 187);
+  color: white;
+}
+
+.dirty {
+  color: white;
+  background-color: rgb(61, 61, 61);
+}
+
+.clear {
+  background-color: white;
+}
+
+.checked {
+  color: white !important;
+  background-color: rgb(0, 121, 21) !important;
+}
+
+.children {
+  display: flex;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: rows;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  background-color: none;
+}
+
+.lch .active {
+  background-color: rgb(236, 54, 54);
+  color: white;
+}
+
+.bs {
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  text-align: center;
+}
