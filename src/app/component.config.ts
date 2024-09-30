@@ -8,6 +8,8 @@ export interface ComponentConfig {
   children?: ComponentConfig[] | null;
 }
 
+export const isCdVisualiser = true;
+
 export const config: ComponentConfig = {
   componentName: 'root',
   style: {

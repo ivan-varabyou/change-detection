@@ -16,8 +16,7 @@ import { RootComponent } from './components/root.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<a routerLink="/zone">CH + Zone</a>
-    <a routerLink="/dynamic">CH + Zone + Dynamic</a>
+  template: `<h1>ZONE.JS</h1>
     <main class="tree">
       <div class="content">
         <router-outlet />
