@@ -3,13 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  computed,
   ElementRef,
   HostBinding,
   input,
   Input,
-  InputSignal,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -17,14 +14,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { isCdVisualiser, Style } from '../component.config';
-import {
-  BehaviorSubject,
-  distinctUntilChanged,
-  fromEvent,
-  interval,
-  Observable,
-  of,
-} from 'rxjs';
+import { distinctUntilChanged, fromEvent, interval, Observable } from 'rxjs';
 import { ChildComponent } from './child.component';
 import { AsyncPipe } from '@angular/common';
 @Component({
