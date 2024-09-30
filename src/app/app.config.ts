@@ -7,7 +7,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
-const isZonneless = false;
+const isZonneless = true;
 let providers: any[];
 if (isZonneless) {
   providers = [provideExperimentalZonelessChangeDetection()];
