@@ -7,17 +7,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 
-const isZonneless = true;
-let providers: any[];
-if (isZonneless) {
-  providers = [provideExperimentalZonelessChangeDetection()];
-} else {
-  providers = [
-    provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
-  ];
-}
-
 export const appConfig: ApplicationConfig = {
-  providers,
+  providers: [
+    provideExperimentalZonelessChangeDetection(),
+    provideRouter(routes),
+  ],
 };
