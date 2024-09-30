@@ -40,8 +40,8 @@ import { Children2Component } from './children2.component';
         <ng-container #childrenContainer>
           <ng-content></ng-content>
         </ng-container>
-        <div children1 componentName="children1" nesting="2"></div>
-        <div children2 componentName="children2" nesting="2"></div>
+        <div children1 componentName="children1"></div>
+        <div children2 componentName="children2"></div>
       </div>
     </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,

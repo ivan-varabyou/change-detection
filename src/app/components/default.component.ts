@@ -31,9 +31,9 @@ import { AsyncPipe } from '@angular/common';
   selector: '[default]',
   standalone: true,
   imports: [ChildComponent, AsyncPipe],
-  template: ` {{ triggerChangeDetection() }}
+  template: `{{ triggerChangeDetection() }}
     <div class="node {{ componentName }}">
-      <div class="name">{{ componentName }} + {{ inputSigal() }}</div>
+      <div class="name">{{ componentName }}</div>
       <div class="bar">
         <div class="buttons">
           <button class="markForCheck" #markForCheck>MFC</button>
@@ -44,9 +44,6 @@ import { AsyncPipe } from '@angular/common';
             Dirty ++ ({{ value }})
           </button>
           <button (click)="runTimeout()">runTimeout</button>
-          <button (click)="runInterval()">
-            startInterval {{ bs$ | async }}
-          </button>
         </div>
         <div class="lch">
           <div class="constructor" #constructor>constructor</div>
@@ -61,11 +58,12 @@ import { AsyncPipe } from '@angular/common';
           <div class="AfterViewChecked" #AfterViewChecked>AfterViewChecked</div>
         </div>
       </div>
-      <div>
-        <!-- <div child componentName="child0"></div> -->
-      </div>
+
       <div class="children {{ componentName }}">
-        <ng-container #childrenContainer> </ng-container>
+        <ng-container #childrenContainer>
+          <div child componentName="child0"></div>
+        </ng-container>
+
         <ng-content></ng-content>
       </div>
     </div>`,
@@ -111,8 +109,9 @@ export class DefaultComponent
   public speed = 50;
   public timeDelay = 0;
   public nesting = 1;
+  public isCorrectTime = false;
 
-  public inputSigal = input<string>('inputSigal');
+  public inputSigal = input<string>('0');
 
   public bs$?: Observable<number>;
 
@@ -275,18 +274,20 @@ export class DefaultComponent
     this.zone.runOutsideAngular(() => {
       this.print('template');
       this.zone.runOutsideAngular(() => {
-        performance.mark(this.componentName + 'end');
+        if (this.isCorrectTime) {
+          performance.mark(this.componentName + 'end');
 
-        performance.measure(
-          `${this.componentName}start to ${this.componentName}end`,
-          this.componentName + 'start',
-          this.componentName + 'end'
-        );
-        const [measure] = performance.getEntriesByName(
-          `${this.componentName}start to ${this.componentName}end`
-        );
-        this.timeDelay = measure.duration;
-        this.speed = this.speed + this.timeDelay;
+          performance.measure(
+            `${this.componentName}start to ${this.componentName}end`,
+            this.componentName + 'start',
+            this.componentName + 'end'
+          );
+          const [measure] = performance.getEntriesByName(
+            `${this.componentName}start to ${this.componentName}end`
+          );
+          this.timeDelay = measure.duration;
+          this.speed = this.speed + this.timeDelay;
+        }
 
         setTimeout(() => {
           // this.print('changeDetectionTrigger');

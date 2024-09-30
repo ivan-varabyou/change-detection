@@ -48,7 +48,7 @@ export class DynamicComponent implements AfterViewInit {
     config: ComponentConfig,
     container: ViewContainerRef,
     componentType: Type<DefaultComponent>,
-    end: boolean
+    end?: boolean
   ): void {
     const component = container.createComponent(componentType, {
       projectableNodes: [
@@ -95,7 +95,7 @@ export class DynamicComponent implements AfterViewInit {
     });
     console.groupEnd();
 
-    component.instance.componentName = config.name;
+    component.instance.componentName = config.componentName;
     component.instance.style = config.style;
   }
   public i = 0;
@@ -104,7 +104,8 @@ export class DynamicComponent implements AfterViewInit {
     config: ComponentConfig,
     classes: string
   ) {
-    component.instance.componentName = config.name;
+    console.log(config);
+    component.instance.componentName = config.componentName;
     component.instance.style = config.style;
     component.instance.value = this.i;
     component.location.nativeElement.class = classes;

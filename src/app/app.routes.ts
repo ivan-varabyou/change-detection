@@ -8,4 +8,9 @@ export const routes: Routes = [
     path: '',
     component: ZoneComponent,
   },
+
+  {
+    path: 'dynamic',
+    component: DynamicComponent,
+  },
 ];

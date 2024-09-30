@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  input,
   Input,
   NgZone,
   OnChanges,
@@ -14,7 +15,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { Style } from '../component.config';
-import { distinctUntilChanged, fromEvent } from 'rxjs';
+import { distinctUntilChanged, fromEvent, interval, Observable } from 'rxjs';
 
 @Component({
   selector: '[child]',
@@ -22,9 +23,7 @@ import { distinctUntilChanged, fromEvent } from 'rxjs';
   imports: [],
   template: ` {{ triggerChangeDetection() }}
     <div class="node {{ componentName }}">
-      <div class="name">
-        {{ componentName }}
-      </div>
+      <div class="name">{{ componentName }}</div>
       <div class="bar">
         <div class="buttons">
           <button class="markForCheck" #markForCheck>MFC</button>
@@ -48,11 +47,6 @@ import { distinctUntilChanged, fromEvent } from 'rxjs';
           <div class="AfterViewInit" #AfterViewInit>AfterViewInit</div>
           <div class="AfterViewChecked" #AfterViewChecked>AfterViewChecked</div>
         </div>
-        <div class="children {{ componentName }}">
-          <ng-container #childrenContainer> </ng-container>
-          <ng-content></ng-content>
-        </div>
-        <div children componentName="children"></div>
       </div>
     </div>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,6 +56,9 @@ export class ChildComponent
 {
   @Input() componentName: string = '';
   @Input() value: number = 0;
+  @Input() inputText: string = '';
+
+  // @Input() nesting: string = '1';
   @Input() style: Style = {
     color: 'black',
     background: 'greay',
@@ -77,6 +74,7 @@ export class ChildComponent
   @ViewChild('detach') detachButton?: ElementRef;
   @ViewChild('reattach') reattachButton?: ElementRef;
   @ViewChild('markAsDirty') markAsDirtyButton?: ElementRef;
+  @ViewChild('inputBs') inputBs?: ElementRef;
 
   @ViewChild('constructor') constructorLch?: ElementRef;
   @ViewChild('onInit') onInitLch?: ElementRef;
@@ -89,88 +87,30 @@ export class ChildComponent
   @ViewChild('doCheck') doCheckLch?: ElementRef;
 
   private timeout?: any;
-  public time = 1000;
   public count = 0;
-  public isFirstRun = true;
-  public speed = 200;
-  public triggerChangeDetection() {
-    this.zone.runOutsideAngular(() => {
-      this.print('template');
-      this.zone.runOutsideAngular(() => {
-        // this.print('changeDetectionTrigger');
-        const nodeElement = this.el.nativeElement.querySelector('.name');
-        nodeElement?.classList.add('checked');
-        this.timeout = setTimeout(() => {
-          nodeElement?.classList.remove('checked');
-          const dirtyNumber = +this.markAsDirtyButton?.nativeElement.textContent
-            .replace('(', '')
-            .replace(')', '')
-            .split(' ++ ')[1];
-          if (dirtyNumber === this.value) {
-            this.markAsDirtyButton?.nativeElement.classList.remove('dirty');
-          }
-          this.markForCheckButton?.nativeElement.classList.remove('active');
-          this.detectChangesButton?.nativeElement.classList.remove('active');
-          clearTimeout(this.timeout);
-        }, 2000);
-      });
-    });
-  }
+  public speed = 50;
+  public timeDelay = 0;
+  public nesting = 1;
+
+  public inputSigal = input<string>('0');
+
+  public bs$?: Observable<number>;
 
   public runTimeout() {
     setTimeout(() => {}, 0);
   }
 
+  public runInterval() {
+    this.bs$ = interval(5000);
+  }
+
+  setInputText(value: string) {
+    this.inputText = value;
+  }
+
   public ngAfterViewInit(): void {
     this.print('ngAfterViewInit');
     const speed = this.speed;
-
-    // this.zone.runOutsideAngular(() => {
-    //   this.constructorLch?.nativeElement.classList.add('active');
-    //   setTimeout(() => {
-    //     this.constructorLch?.nativeElement.classList.remove('active');
-    //     this.onInitLch?.nativeElement.classList.add('active');
-    //     setTimeout(() => {
-    //       this.onInitLch?.nativeElement.classList.remove('active');
-    //       this.doCheckLch?.nativeElement.classList.add('active');
-    //       setTimeout(() => {
-    //         this.doCheckLch?.nativeElement.classList.remove('active');
-
-    //         this.afterContentInitLch?.nativeElement.classList.add('active');
-    //         setTimeout(() => {
-    //           this.afterContentInitLch?.nativeElement.classList.remove(
-    //             'active'
-    //           );
-
-    //           this.afterContentCheckedLch?.nativeElement.classList.add(
-    //             'active'
-    //           );
-    //           setTimeout(() => {
-    //             this.afterContentCheckedLch?.nativeElement.classList.remove(
-    //               'active'
-    //             );
-
-    //             this.afterViewInitLch?.nativeElement.classList.add('active');
-    //             setTimeout(() => {
-    //               this.afterViewInitLch?.nativeElement.classList.remove(
-    //                 'active'
-    //               );
-
-    //               this.afterViewCheckedLch?.nativeElement.classList.add(
-    //                 'active'
-    //               );
-    //               setTimeout(() => {
-    //                 this.afterViewCheckedLch?.nativeElement.classList.remove(
-    //                   'active'
-    //                 );
-    //               }, speed);
-    //             }, speed);
-    //           }, speed);
-    //         }, speed);
-    //       }, speed);
-    //     }, speed);
-    //   }, speed);
-    // });
 
     this.zone.runOutsideAngular(() => {
       fromEvent(this.markForCheckButton?.nativeElement, 'click')
@@ -208,6 +148,13 @@ export class ChildComponent
           this.value++;
           this.markAsDirtyButton?.nativeElement.classList.add('dirty');
         });
+
+      setTimeout(() => {
+        this.afterViewInitLch?.nativeElement.classList.add('active');
+        setTimeout(() => {
+          this.afterViewInitLch?.nativeElement.classList.remove('active');
+        }, 6 * this.speed);
+      }, 6 * this.speed);
     });
   }
 
@@ -226,69 +173,134 @@ export class ChildComponent
     protected zone: NgZone
   ) {
     this.print('constructor', this.componentName);
-    // this.runColorLch(this.constructorLch?.nativeElement);
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.constructorLch?.nativeElement.classList.add('active');
+        setTimeout(() => {
+          this.constructorLch?.nativeElement.classList.remove('active');
+        }, 0 * this.speed);
+      }, 0 * this.speed);
+    });
   }
 
   public ngOnInit(): void {
     this.print('ngOnInit');
+
     this.zone.runOutsideAngular(() => {
-      this.onInitLch?.nativeElement.classList.add('active');
       setTimeout(() => {
-        this.onInitLch?.nativeElement.classList.remove('active');
-      }, 1000);
+        this.speed = this.speed + this.timeDelay;
+        this.onInitLch?.nativeElement.classList.add('active');
+        setTimeout(() => {
+          this.onInitLch?.nativeElement.classList.remove('active');
+        }, 1 * this.speed);
+      }, 1 * this.speed);
     });
   }
 
   public ngOnChanges(): void {
+    performance.mark(this.componentName + 'start');
     this.print('ngOnChanges');
     // this.runColorLch(this.onChangesLch?.nativeElement);
     this.zone.runOutsideAngular(() => {
-      this.onChangesLch?.nativeElement.classList.add('active');
       setTimeout(() => {
-        this.onChangesLch?.nativeElement.classList.remove('active');
-      }, 1000);
+        this.onChangesLch?.nativeElement.classList.add('active');
+        setTimeout(() => {
+          this.onChangesLch?.nativeElement.classList.remove('active');
+        }, 2 * this.speed);
+      }, 2 * this.speed);
     });
   }
 
   public ngDoCheck(): void {
     /* When OnPush is detected, disable the check-status */
     this.print('ngDoCheck');
-    if (!this.isFirstRun) {
-      this.zone.runOutsideAngular(() => {
+    this.timeDelay = 0;
+
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
         this.doCheckLch?.nativeElement.classList.add('active');
         setTimeout(() => {
           this.doCheckLch?.nativeElement.classList.remove('active');
-        }, this.speed);
-      });
-    }
+        }, 3 * this.speed);
+      }, 3 * this.speed);
+    });
   }
 
-  public ngAfterViewChecked(): void {
-    this.print('ngAfterViewChecked');
-    console.groupEnd();
-    if (!this.isFirstRun) {
-      this.zone.runOutsideAngular(() => {
-        this.afterViewCheckedLch?.nativeElement.classList.add('active');
+  public ngAfterContentInit(): void {
+    this.print('ngAfterContentInit');
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.afterContentInitLch?.nativeElement.classList.add('active');
         setTimeout(() => {
-          this.afterViewCheckedLch?.nativeElement.classList.remove('active');
-        }, this.speed);
-      });
-    }
-    this.isFirstRun = true;
+          this.afterContentInitLch?.nativeElement.classList.remove('active');
+        }, 4 * this.speed);
+      }, 4 * this.speed);
+    });
   }
 
   public ngAfterContentChecked(): void {
     this.print('ngAfterContentChecked');
-    console.groupEnd();
-    if (!this.isFirstRun) {
-      this.zone.runOutsideAngular(() => {
+
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
         this.afterContentCheckedLch?.nativeElement.classList.add('active');
         setTimeout(() => {
           this.afterContentCheckedLch?.nativeElement.classList.remove('active');
-        }, this.speed);
+        }, 5 * this.speed);
+      }, 5 * this.speed);
+    });
+  }
+
+  public triggerChangeDetection() {
+    this.zone.runOutsideAngular(() => {
+      this.print('template');
+      this.zone.runOutsideAngular(() => {
+        performance.mark(this.componentName + 'end');
+
+        performance.measure(
+          `${this.componentName}start to ${this.componentName}end`,
+          this.componentName + 'start',
+          this.componentName + 'end'
+        );
+        const [measure] = performance.getEntriesByName(
+          `${this.componentName}start to ${this.componentName}end`
+        );
+        this.timeDelay = measure.duration;
+        this.speed = this.speed + this.timeDelay;
+
+        setTimeout(() => {
+          // this.print('changeDetectionTrigger');
+          const nodeElement = this.el.nativeElement.querySelector('.name');
+          nodeElement?.classList.add('checked');
+          this.timeout = setTimeout(() => {
+            nodeElement?.classList.remove('checked');
+            const dirtyNumber =
+              +this.markAsDirtyButton?.nativeElement.textContent
+                .replace('(', '')
+                .replace(')', '')
+                .split(' ++ ')[1];
+            if (dirtyNumber === this.value) {
+              this.markAsDirtyButton?.nativeElement.classList.remove('dirty');
+            }
+            this.markForCheckButton?.nativeElement.classList.remove('active');
+            this.detectChangesButton?.nativeElement.classList.remove('active');
+            clearTimeout(this.timeout);
+          }, 5 * this.speed);
+        }, 5 * this.speed);
       });
-    }
-    this.isFirstRun = true;
+    });
+  }
+
+  public ngAfterViewChecked(): void {
+    this.print('ngAfterViewChecked');
+    this.zone.runOutsideAngular(() => {
+      setTimeout(() => {
+        this.afterViewCheckedLch?.nativeElement.classList.add('active');
+        setTimeout(() => {
+          this.afterViewCheckedLch?.nativeElement.classList.remove('active');
+        }, 7 * this.speed);
+      }, 7 * this.speed);
+    });
   }
 
   public ngOnDestroy(): void {
