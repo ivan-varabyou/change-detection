@@ -16,7 +16,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Style } from '../component.config';
+import { isCdVisualiser, Style } from '../component.config';
 import {
   BehaviorSubject,
   distinctUntilChanged,
@@ -69,7 +69,7 @@ import { AsyncPipe } from '@angular/common';
         <ng-content></ng-content>
       </div>
     </div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class DefaultComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
@@ -193,6 +193,7 @@ export class DefaultComponent
     protected zone: NgZone
   ) {
     this.print('constructor', this.componentName);
+    if (!isCdVisualiser) return;
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {
         this.constructorLch?.nativeElement.classList.add('active');
@@ -204,6 +205,7 @@ export class DefaultComponent
   }
 
   public ngOnInit(): void {
+    if (!isCdVisualiser) return;
     this.print('ngOnInit');
 
     this.zone.runOutsideAngular(() => {
@@ -218,6 +220,7 @@ export class DefaultComponent
   }
 
   public ngOnChanges(): void {
+    if (!isCdVisualiser) return;
     performance.mark(this.componentName + 'start');
     this.print('ngOnChanges');
     // this.runColorLch(this.onChangesLch?.nativeElement);
@@ -232,6 +235,7 @@ export class DefaultComponent
   }
 
   public ngDoCheck(): void {
+    if (!isCdVisualiser) return;
     /* When OnPush is detected, disable the check-status */
     this.print('ngDoCheck');
     this.timeDelay = 0;
@@ -247,6 +251,7 @@ export class DefaultComponent
   }
 
   public ngAfterContentInit(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterContentInit');
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {
@@ -259,6 +264,7 @@ export class DefaultComponent
   }
 
   public ngAfterContentChecked(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterContentChecked');
 
     this.zone.runOutsideAngular(() => {
@@ -272,6 +278,7 @@ export class DefaultComponent
   }
 
   public triggerChangeDetection() {
+    if (!isCdVisualiser) return;
     this.zone.runOutsideAngular(() => {
       this.print('template');
       this.zone.runOutsideAngular(() => {
@@ -312,6 +319,7 @@ export class DefaultComponent
   }
 
   public ngAfterViewChecked(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterViewChecked');
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {

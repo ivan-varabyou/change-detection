@@ -8,6 +8,8 @@ export interface ComponentConfig {
   children?: ComponentConfig[] | null;
 }
 
+export const isCdVisualiser = true;
+
 export const config: ComponentConfig = {
   name: 'root dynamic tree',
   style: {

@@ -18,9 +18,8 @@ import { RootComponent } from './components/root.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<a routerLink="/zone">CH + Zone</a>
-    <a routerLink="/dynamic">CH + Zone + Dynamic</a>
-    <main class="tree">
+  template: ` <main class="tree">
+      <h1>Zoneless</h1>
       <div class="content">
         <router-outlet />
       </div>

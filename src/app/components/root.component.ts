@@ -44,6 +44,5 @@ import { Children2Component } from './children2.component';
         <div children2 componentName="children2" nesting="2"></div>
       </div>
     </div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RootComponent extends DefaultComponent {}
