@@ -124,6 +124,10 @@ export class DefaultComponent
     this.bs$ = interval(5000);
   }
 
+  setInputText(value: string) {
+    this.inputText = value;
+  }
+
   public ngAfterViewInit(): void {
     this.print('ngAfterViewInit');
     const speed = this.speed;
@@ -172,11 +176,6 @@ export class DefaultComponent
         }, 6 * this.speed);
       }, 6 * this.speed);
     });
-    if (this.inputBs?.nativeElement) {
-      fromEvent(this.inputBs?.nativeElement, 'input').subscribe(() => {
-        console.log('inputBs');
-      });
-    }
   }
 
   public removeStyleTimeout(element: any) {

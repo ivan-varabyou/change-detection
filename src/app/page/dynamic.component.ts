@@ -10,29 +10,35 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ComponentConfig, config } from './component.config';
-import { DefaultComponent } from './components/default.component';
-import { RootComponent } from './components/root.component';
+import { ComponentConfig, config } from '../component.config';
+import { DefaultComponent } from '../components/default.component';
+import { RootComponent } from '../components/root.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<a routerLink="/zone">CH + Zone</a>
-    <a routerLink="/dynamic">CH + Zone + Dynamic</a>
-    <main class="tree">
-      <div class="content">
-        <router-outlet />
-      </div>
-    </main>
-
-    <button (click)="runZone()">run zone JS</button>`,
+  template: ` <ng-container #parentCcontainer></ng-container> `,
 })
-export class AppComponent {
+export class DynamicComponent implements AfterViewInit {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })
   parentContainer!: ViewContainerRef;
 
   constructor(protected app: ApplicationRef) {}
+
+  ngOnInit(): void {
+    console.group('AppComponent');
+  }
+
+  ngAfterViewInit(): void {
+    this.renderComponents(
+      config,
+      this.parentContainer,
+      DefaultComponent,
+      false
+    );
+    console.groupEnd();
+  }
 
   runZone() {
     this.app.tick();

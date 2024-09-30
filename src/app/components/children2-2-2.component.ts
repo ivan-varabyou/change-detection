@@ -8,9 +8,7 @@ import { AsyncPipe } from '@angular/common';
   imports: [AsyncPipe],
   template: ` {{ triggerChangeDetection() }}
     <div class="node {{ componentName }}">
-      <div class="name">
-        {{ componentName }}
-      </div>
+      <div class="name">{{ componentName }} + {{ inputText }}</div>
       <div class="bar">
         <div class="buttons">
           <button class="markForCheck" #markForCheck>MFC</button>
