@@ -1,5 +1,5 @@
 import { Directive, HostBinding, Input } from '@angular/core';
-import { Style } from '../component.config';
+import { Style } from '../../zone.config';
 
 @Directive({
   selector: '[appInlineStyle]',

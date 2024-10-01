@@ -14,7 +14,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { isCdVisualiser, Style } from '../component.config';
+import { isCdVisualiser, Style } from '../../../zone.config';
 import { distinctUntilChanged, fromEvent, interval, Observable } from 'rxjs';
 import { ChildComponent } from './child.component';
 import { AsyncPipe } from '@angular/common';

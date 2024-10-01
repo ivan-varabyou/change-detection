@@ -8,6 +8,15 @@ export interface ComponentConfig {
   children?: ComponentConfig[] | null;
 }
 
+/*
+ * if isZoneless = true
+ * remove polyfills zone.js in angular.json
+ * "polyfills": [
+ *              "zone.js"  <= remove
+ *            ],
+ */
+export const isZoneless = false;
+
 export const isCdVisualiser = true;
 
 export const config: ComponentConfig = {

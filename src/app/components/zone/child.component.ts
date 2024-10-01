@@ -14,7 +14,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Style } from '../component.config';
+import { Style } from '../../../zone.config';
 import { distinctUntilChanged, fromEvent, interval, Observable } from 'rxjs';
 
 @Component({

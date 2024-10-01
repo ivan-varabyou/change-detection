@@ -10,28 +10,21 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { RootComponent } from './components/zone/root.component';
+import { ComponentConfig, config } from '../../zone.config';
+import { DefaultComponent } from '../components/zoneless/default.component';
+import { RootComponent } from '../components/zoneless/root.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<h1>ZONE.JS</h1>
-    <main class="tree">
-      <div class="content">
-        <router-outlet />
-      </div>
-    </main>
-
-    <button (click)="runZone()">run zone JS</button>`,
+  template: ` <div root componentName="root default tree"></div> `,
 })
-export class AppComponent {
+export class ZonelessComponent {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })
   parentContainer!: ViewContainerRef;
 
   constructor(protected app: ApplicationRef) {}
 
-  runZone() {
-    this.app.tick();
-  }
+  ngOnInit(): void {}
 }

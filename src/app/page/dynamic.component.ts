@@ -10,9 +10,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ComponentConfig, config } from '../component.config';
-import { DefaultComponent } from '../components/default.component';
-import { RootComponent } from '../components/root.component';
+import { ComponentConfig, config } from '../../zone.config';
+import { DefaultComponent } from '../components/zone/default.component';
+import { RootComponent } from '../components/zone/root.component';
 
 @Component({
   selector: 'app-root',
