@@ -17,7 +17,7 @@ To get started with the Angular Change Detection Visualiser, follow these steps:
 
 1. Clone the repository:
 
-   git clone https://github.com/yourusername/angular-change-detection-visualiser.git
+   git clone https://github.com/ivan-varabyou/change-detection-visualization.git
 
 2. Navigate to the project directory:
 
