@@ -1,17 +1,17 @@
-▎Angular Change Detection Visualiser
+# Angular Change Detection Cisualization
 
-▎Overview
+## Overview
 
 The Angular Change Detection Visualiser is a tool designed to help developers understand and visualize the change detection mechanism in Angular applications. This project provides a graphical representation of how Angular detects changes in components, making it easier to optimize performance and identify potential issues.
 
-▎Features
+## Features
 
 - Visual representation of the component tree.
 - Interactive buttons to trigger change detection manually.
 - Detailed lifecycle hooks display for each component.
 - Real-time updates to the visualisation as changes occur.
 
-▎Installation
+## Installation
 
 To get started with the Angular Change Detection Visualiser, follow these steps:
 
@@ -33,7 +33,7 @@ To get started with the Angular Change Detection Visualiser, follow these steps:
 
 5. Open your browser and navigate to http://localhost:4200.
 
-▎Usage
+## Usage
 
 Once the application is running, you can interact with the visualiser by:
 
@@ -41,7 +41,7 @@ Once the application is running, you can interact with the visualiser by:
 - Triggering change detection manually using the provided buttons.
 - Observing how changes propagate through the component tree in real-time.
 
-▎Remove Zone.js
+## Remove Zone.js
 
 - if isZoneless = true
 - remove polyfills zone.js in angular.json
@@ -51,7 +51,7 @@ Once the application is running, you can interact with the visualiser by:
   scr/zone.config.json
   export const isZoneless = true;
 
-▎Contributing
+## Contributing
 
 Contributions are welcome! If you would like to contribute to this project, please follow these steps:
 
@@ -61,7 +61,7 @@ Contributions are welcome! If you would like to contribute to this project, plea
 4. Push to the branch (git push origin feature/YourFeature).
 5. Open a pull request.
 
-▎License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
