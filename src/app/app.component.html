@@ -1,5 +1,3 @@
-<a [routerLink]="/zone" routerLinkActive="router-link-active">CH + Zone</a>
-<a [routerLink]="/dynamic" routerLinkActive="router-link-active">CH + Zone + Dynamic</a>
 <main class="tree">
   <div class="content">
     <router-outlet />
@@ -7,3 +5,6 @@
 </main>
 
 <button (click)="runZone()">run zone JS</button>
+<button (click)="goTo('zone')">Zone</button>
+<button (click)="goTo('zoneless')">Zoneless</button>
+<button (click)="goTo('dynamic')">Dynamic</button>

@@ -7,7 +7,6 @@ import {
   HostBinding,
   input,
   Input,
-  NgZone,
   OnChanges,
   OnDestroy,
   OnInit,
@@ -16,17 +15,16 @@ import {
 } from '@angular/core';
 
 import { distinctUntilChanged, fromEvent, interval, Observable } from 'rxjs';
+import { ChildComponent } from '../zone/child.component';
+import { AsyncPipe } from '@angular/common';
 import { isCdVisualiser, Style } from '../../../zone.config';
-
 @Component({
-  selector: '[child]',
+  selector: '[default]',
   standalone: true,
-  imports: [],
+  imports: [ChildComponent, AsyncPipe],
   template: ` {{ triggerChangeDetection() }}
     <div class="node {{ componentName }}">
-      <div class="name">
-        {{ componentName }}
-      </div>
+      <div class="name">{{ componentName }} + {{ inputSigal() }}</div>
       <div class="bar">
         <div class="buttons">
           <button class="markForCheck" #markForCheck>MFC</button>
@@ -37,6 +35,9 @@ import { isCdVisualiser, Style } from '../../../zone.config';
             Dirty ++ ({{ value }})
           </button>
           <button (click)="runTimeout()">runTimeout</button>
+          <button (click)="runInterval()">
+            startInterval {{ bs$ | async }}
+          </button>
         </div>
         <div class="lch">
           <div class="constructor" #constructor>constructor</div>
@@ -50,16 +51,18 @@ import { isCdVisualiser, Style } from '../../../zone.config';
           <div class="AfterViewInit" #AfterViewInit>AfterViewInit</div>
           <div class="AfterViewChecked" #AfterViewChecked>AfterViewChecked</div>
         </div>
-        <div class="children {{ componentName }}">
-          <ng-container #childrenContainer> </ng-container>
-          <ng-content></ng-content>
-        </div>
-        <div children componentName="children"></div>
+      </div>
+      <div>
+        <!-- <div child componentName="child0"></div> -->
+      </div>
+      <div class="children {{ componentName }}">
+        <ng-container #childrenContainer> </ng-container>
+        <ng-content></ng-content>
       </div>
     </div>`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
-export class ChildComponent
+export class DefaultComponent
   implements OnInit, OnChanges, AfterViewInit, OnDestroy
 {
   @Input() componentName: string = '';

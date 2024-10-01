@@ -18,7 +18,8 @@ import { RootComponent } from '../components/zone/root.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: ` <div root componentName="root default tree"></div> `,
+  template: `<h1>Zone JS</h1>
+    <div root componentName="root default tree"></div> `,
 })
 export class ZoneComponent {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })

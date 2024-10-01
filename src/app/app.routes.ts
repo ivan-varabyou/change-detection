@@ -6,7 +6,7 @@ import { ZonelessComponent } from './page/zoneless.component';
 
 export const routes: Routes = [
   {
-    path: 'zone',
+    path: '',
     component: ZoneComponent,
   },
   {
