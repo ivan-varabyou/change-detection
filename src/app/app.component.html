@@ -1,10 +1,10 @@
+<button (click)="goTo('')">Zone</button>
+<button (click)="goTo('zoneless')">Zoneless</button>
+<button (click)="goTo('dynamic')">Dynamic</button>
+<button (click)="runZone()">run zone JS</button>
+
 <main class="tree">
   <div class="content">
     <router-outlet />
   </div>
 </main>
-
-<button (click)="runZone()">run zone JS</button>
-<button (click)="goTo('zone')">Zone</button>
-<button (click)="goTo('zoneless')">Zoneless</button>
-<button (click)="goTo('dynamic')">Dynamic</button>
