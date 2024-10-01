@@ -18,13 +18,11 @@ import { RootComponent } from '../components/zone/root.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<h1>Dynamic Component</h1>
-    <ng-container #parentCcontainer></ng-container> `,
+  template: ` <ng-container #parentCcontainer></ng-container> `,
 })
 export class DynamicComponent implements AfterViewInit {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })
   parentContainer!: ViewContainerRef;
-  public i = 0; // Счетчик для значений компонентов
 
   constructor(protected app: ApplicationRef) {}
 
@@ -41,34 +39,70 @@ export class DynamicComponent implements AfterViewInit {
     this.app.tick();
   }
 
-  public renderComponents(
+  renderComponents(
     config: ComponentConfig,
     container: ViewContainerRef,
     componentType: Type<DefaultComponent>
   ): void {
-    this.createComponentRecursively(config, container, componentType);
-  }
+    const component = container.createComponent(componentType, {
+      projectableNodes: [
+        [
+          ...config.children!.map((config0) => {
+            const childrenCompoent = container.createComponent(componentType, {
+              projectableNodes: [
+                [
+                  ...config0.children!.map((config1) => {
+                    const childrenCompoent0 = container.createComponent(
+                      componentType,
+                      {
+                        projectableNodes: [
+                          [
+                            ...config1.children!.map((config2) => {
+                              const childrenCompoent1 =
+                                container.createComponent(componentType, {});
 
-  private createComponentRecursively(
-    config: ComponentConfig,
-    container: ViewContainerRef,
-    componentType: Type<DefaultComponent>
-  ): ComponentRef<DefaultComponent> {
-    // Создаем компонент
-    const component = container.createComponent(componentType);
+                              return this.getNativeElement(
+                                childrenCompoent1,
+                                config2,
+                                'children1'
+                              );
+                            }),
+                          ] || [],
+                        ],
+                      }
+                    );
+                    ('children0');
+                    return this.getNativeElement(
+                      childrenCompoent0,
+                      config1,
+                      'children0'
+                    );
+                  }),
+                ] || [],
+              ],
+            });
 
-    // Устанавливаем свойства для компонента
+            return this.getNativeElement(childrenCompoent, config0, 'children');
+          }),
+        ] || [],
+      ],
+    });
+    console.groupEnd();
+
     component.instance.componentName = config.componentName;
     component.instance.style = config.style;
-    component.instance.value = this.i++; // Используем значение счетчика
-
-    // Если есть дочерние компоненты, создаем их рекурсивно
-    if (config.children && config.children.length > 0) {
-      for (const childConfig of config.children) {
-        this.createComponentRecursively(childConfig, container, componentType);
-      }
-    }
-
-    return component;
+  }
+  i = 0;
+  getNativeElement(
+    component: ComponentRef<DefaultComponent>,
+    config: ComponentConfig,
+    classes: string
+  ) {
+    console.log(config);
+    component.instance.componentName = config.componentName;
+    component.instance.style = config.style;
+    component.instance.value = this.i;
+    component.location.nativeElement.class = classes;
+    return component.location.nativeElement;
   }
 }
