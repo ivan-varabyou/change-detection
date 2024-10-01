@@ -1,27 +1,71 @@
-# ChangeDetection
+▎Angular Change Detection Visualiser
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
+▎Overview
 
-## Development server
+The Angular Change Detection Visualiser is a tool designed to help developers understand and visualize the change detection mechanism in Angular applications. This project provides a graphical representation of how Angular detects changes in components, making it easier to optimize performance and identify potential issues.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+▎Features
 
-## Code scaffolding
+- Visual representation of the component tree.
+- Interactive buttons to trigger change detection manually.
+- Detailed lifecycle hooks display for each component.
+- Real-time updates to the visualisation as changes occur.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+▎Installation
 
-## Build
+To get started with the Angular Change Detection Visualiser, follow these steps:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Clone the repository:
 
-## Running unit tests
+   git clone https://github.com/yourusername/angular-change-detection-visualiser.git
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+2. Navigate to the project directory:
 
-## Running end-to-end tests
+   cd angular-change-detection-visualiser
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+3. Install the dependencies:
 
-## Further help
+   npm install
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+4. Run the application:
+
+   ng serve
+
+5. Open your browser and navigate to http://localhost:4200.
+
+▎Usage
+
+Once the application is running, you can interact with the visualiser by:
+
+- Adding components to the tree.
+- Triggering change detection manually using the provided buttons.
+- Observing how changes propagate through the component tree in real-time.
+
+▎Remove Zone.js
+
+- if isZoneless = true
+- remove polyfills zone.js in angular.json
+- "polyfills": [
+-              "zone.js"  <= remove
+-            ],
+  scr/zone.config.json
+  export const isZoneless = true;
+
+▎Contributing
+
+Contributions are welcome! If you would like to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (git checkout -b feature/YourFeature).
+3. Make your changes and commit them (git commit -m 'Add some feature').
+4. Push to the branch (git push origin feature/YourFeature).
+5. Open a pull request.
+
+▎License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+▎Acknowledgments
+
+- Thanks to the Angular team for creating such an amazing framework.
+- Special thanks to all contributors who helped improve this project.
