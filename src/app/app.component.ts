@@ -15,8 +15,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterOutlet, RootComponent, CommonModule],
   template: `<div>
-      <button (click)="goTo('')">{{ isZoneless ? 'Zoneless' : 'Zone' }}</button>
-      <button (click)="goTo('dynamic')">Dynamic</button>
+      <a class="button" href="#">{{ isZoneless ? 'Zoneless' : 'Zone' }}</a>
+      <a class="button" href="/dynamic">Dynamic</a>
     </div>
     <main class="tree">
       <div class="content">
@@ -36,6 +36,6 @@ export class AppComponent {
   }
 
   goTo(page: string) {
-    this.router.navigate([page]);
+    this.router.navigateByUrl(page);
   }
 }

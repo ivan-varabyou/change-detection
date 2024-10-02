@@ -217,6 +217,7 @@ main {
   gap: 1px;
 }
 
+.button,
 button {
   margin-right: 5px;
   padding: 5px 10px;
@@ -226,6 +227,11 @@ button {
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.button {
+  background-color: #e64141;
 }
 
 button:hover {
