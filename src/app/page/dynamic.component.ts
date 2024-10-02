@@ -10,9 +10,9 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ComponentConfig, config } from '../component.config';
-import { DefaultComponent } from '../components/default.component';
-import { RootComponent } from '../components/root.component';
+import { ComponentConfig, config } from '../../zone.config';
+import { DefaultComponent } from '../components/zone/default.component';
+import { RootComponent } from '../components/zone/root.component';
 
 @Component({
   selector: 'app-root',
@@ -31,12 +31,7 @@ export class DynamicComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.renderComponents(
-      config,
-      this.parentContainer,
-      DefaultComponent,
-      false
-    );
+    this.renderComponents(config, this.parentContainer, DefaultComponent);
     console.groupEnd();
   }
 
@@ -44,11 +39,10 @@ export class DynamicComponent implements AfterViewInit {
     this.app.tick();
   }
 
-  public renderComponents(
+  renderComponents(
     config: ComponentConfig,
     container: ViewContainerRef,
-    componentType: Type<DefaultComponent>,
-    end?: boolean
+    componentType: Type<DefaultComponent>
   ): void {
     const component = container.createComponent(componentType, {
       projectableNodes: [
@@ -98,8 +92,8 @@ export class DynamicComponent implements AfterViewInit {
     component.instance.componentName = config.componentName;
     component.instance.style = config.style;
   }
-  public i = 0;
-  protected getNativeElement(
+  i = 0;
+  getNativeElement(
     component: ComponentRef<DefaultComponent>,
     config: ComponentConfig,
     classes: string

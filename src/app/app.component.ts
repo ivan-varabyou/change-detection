@@ -1,16 +1,12 @@
+import { routes } from './app.routes';
 import {
-  AfterContentInit,
-  AfterViewInit,
   ApplicationRef,
   Component,
-  ComponentRef,
-  OnInit,
-  Type,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { RootComponent } from './components/root.component';
+import { Router, RouterOutlet } from '@angular/router';
+import { RootComponent } from './components/zone/root.component';
 
 @Component({
   selector: 'app-root',
@@ -29,9 +25,13 @@ export class AppComponent {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })
   parentContainer!: ViewContainerRef;
 
-  constructor(protected app: ApplicationRef) {}
+  constructor(protected app: ApplicationRef, protected router: Router) {}
 
   runZone() {
     this.app.tick();
+  }
+
+  goTo(page: string) {
+    this.router.navigate([page]);
   }
 }

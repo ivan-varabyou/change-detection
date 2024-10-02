@@ -8,6 +8,15 @@ export interface ComponentConfig {
   children?: ComponentConfig[] | null;
 }
 
+/*
+ * if isZoneless = true
+ * remove polyfills zone.js in angular.json
+ * "polyfills": [
+ *              "zone.js"  <= remove
+ *            ],
+ */
+export const isZoneless = false;
+
 export const isCdVisualiser = true;
 
 export const config: ComponentConfig = {
@@ -66,61 +75,6 @@ export const config: ComponentConfig = {
               style: {
                 color: 'brown',
                 background: 'lightbrown',
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      componentName: 'children-2',
-      style: {
-        color: 'gray',
-        background: 'lightgray',
-      },
-      children: [
-        {
-          componentName: 'children-2-1',
-          style: {
-            color: 'pink',
-            background: 'lightpink',
-          },
-          children: [
-            {
-              componentName: 'children-2-1-1',
-              style: {
-                color: 'turquoise',
-                background: 'lightturquoise',
-              },
-            },
-            {
-              componentName: 'children-2-1-2',
-              style: {
-                color: 'silver',
-                background: 'lightsilver',
-              },
-            },
-          ],
-        },
-        {
-          componentName: 'children-2-2',
-          style: {
-            color: 'maroon',
-            background: 'lightmaroon',
-          },
-          children: [
-            {
-              componentName: 'children-2-2-1',
-              style: {
-                color: 'teal',
-                background: 'lightteal',
-              },
-            },
-            {
-              componentName: 'children-2-2-2',
-              style: {
-                color: 'navy',
-                background: 'lightnavy',
               },
             },
           ],

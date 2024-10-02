@@ -14,7 +14,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Style } from '../component.config';
+import { isCdVisualiser, Style } from '../../../zone.config';
 import { distinctUntilChanged, fromEvent, interval, Observable } from 'rxjs';
 
 @Component({
@@ -91,6 +91,7 @@ export class ChildComponent
   public speed = 50;
   public timeDelay = 0;
   public nesting = 1;
+  public isCorrectTime = false;
 
   public inputSigal = input<string>('0');
 
@@ -109,6 +110,7 @@ export class ChildComponent
   }
 
   public ngAfterViewInit(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterViewInit');
     const speed = this.speed;
 
@@ -159,6 +161,7 @@ export class ChildComponent
   }
 
   public removeStyleTimeout(element: any) {
+    if (!isCdVisualiser) return;
     this.zone.runOutsideAngular(() => {
       element.classList.add('active');
       setTimeout(() => {
@@ -174,6 +177,7 @@ export class ChildComponent
   ) {
     this.print('constructor', this.componentName);
     this.zone.runOutsideAngular(() => {
+      if (!isCdVisualiser) return;
       setTimeout(() => {
         this.constructorLch?.nativeElement.classList.add('active');
         setTimeout(() => {
@@ -184,6 +188,7 @@ export class ChildComponent
   }
 
   public ngOnInit(): void {
+    if (!isCdVisualiser) return;
     this.print('ngOnInit');
 
     this.zone.runOutsideAngular(() => {
@@ -198,6 +203,7 @@ export class ChildComponent
   }
 
   public ngOnChanges(): void {
+    if (!isCdVisualiser) return;
     performance.mark(this.componentName + 'start');
     this.print('ngOnChanges');
     // this.runColorLch(this.onChangesLch?.nativeElement);
@@ -212,6 +218,7 @@ export class ChildComponent
   }
 
   public ngDoCheck(): void {
+    if (!isCdVisualiser) return;
     /* When OnPush is detected, disable the check-status */
     this.print('ngDoCheck');
     this.timeDelay = 0;
@@ -227,6 +234,7 @@ export class ChildComponent
   }
 
   public ngAfterContentInit(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterContentInit');
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {
@@ -239,6 +247,7 @@ export class ChildComponent
   }
 
   public ngAfterContentChecked(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterContentChecked');
 
     this.zone.runOutsideAngular(() => {
@@ -252,21 +261,24 @@ export class ChildComponent
   }
 
   public triggerChangeDetection() {
+    if (!isCdVisualiser) return;
     this.zone.runOutsideAngular(() => {
       this.print('template');
       this.zone.runOutsideAngular(() => {
-        performance.mark(this.componentName + 'end');
+        if (this.isCorrectTime) {
+          performance.mark(this.componentName + 'end');
 
-        performance.measure(
-          `${this.componentName}start to ${this.componentName}end`,
-          this.componentName + 'start',
-          this.componentName + 'end'
-        );
-        const [measure] = performance.getEntriesByName(
-          `${this.componentName}start to ${this.componentName}end`
-        );
-        this.timeDelay = measure.duration;
-        this.speed = this.speed + this.timeDelay;
+          performance.measure(
+            `${this.componentName}start to ${this.componentName}end`,
+            this.componentName + 'start',
+            this.componentName + 'end'
+          );
+          const [measure] = performance.getEntriesByName(
+            `${this.componentName}start to ${this.componentName}end`
+          );
+          this.timeDelay = measure.duration;
+          this.speed = this.speed + this.timeDelay;
+        }
 
         setTimeout(() => {
           // this.print('changeDetectionTrigger');
@@ -292,6 +304,7 @@ export class ChildComponent
   }
 
   public ngAfterViewChecked(): void {
+    if (!isCdVisualiser) return;
     this.print('ngAfterViewChecked');
     this.zone.runOutsideAngular(() => {
       setTimeout(() => {
@@ -304,6 +317,7 @@ export class ChildComponent
   }
 
   public ngOnDestroy(): void {
+    if (!isCdVisualiser) return;
     this.print('ngOnDestroy');
     this.childrenContainer.clear();
   }

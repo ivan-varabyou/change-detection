@@ -11,17 +11,17 @@ import {
 } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ComponentConfig, config } from '../../zone.config';
-import { DefaultComponent } from '../components/zone/default.component';
-import { RootComponent } from '../components/zone/root.component';
+import { RootComponent } from '../components/zonelesss/root.component';
+import { DefaultComponent } from '../components/zonelesss/default.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<h1>Zone JS</h1>
+  template: `<h1>Zoneless</h1>
     <div root componentName="root default tree"></div> `,
 })
-export class ZoneComponent {
+export class ZonelessComponent {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })
   parentContainer!: ViewContainerRef;
 

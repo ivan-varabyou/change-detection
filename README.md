@@ -1,4 +1,5 @@
 # Angular Change Detection Cisualization
+
 ![2024-10-01_15-31-30](https://github.com/user-attachments/assets/2392e586-7311-4777-9c90-624bc035d25d)
 
 ## Overview
@@ -43,6 +44,7 @@ Once the application is running, you can interact with the visualiser by:
 - Observing how changes propagate through the component tree in real-time.
 
 ## Remove Zone.js
+
 ```
 // remove polyfills zone.js in angular.json
 "polyfills": ["zone.js"  <= remove],
@@ -51,6 +53,7 @@ Once the application is running, you can interact with the visualiser by:
 // if isZoneless = true
 export const isZoneless = true;
 ```
+
 ## Contributing
 
 Contributions are welcome! If you would like to contribute to this project, please follow these steps:
