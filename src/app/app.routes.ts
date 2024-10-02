@@ -3,15 +3,12 @@ import { AppComponent } from './app.component';
 import { ZoneComponent } from './page/zone.component';
 import { DynamicComponent } from './page/dynamic.component';
 import { ZonelessComponent } from './page/zoneless.component';
+import { isZoneless } from '../zone.config';
 
 export const routes: Routes = [
   {
     path: '',
-    component: ZoneComponent,
-  },
-  {
-    path: 'zoneless',
-    component: ZonelessComponent,
+    component: isZoneless ? ZonelessComponent : ZoneComponent,
   },
 
   {
