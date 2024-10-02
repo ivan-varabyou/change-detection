@@ -12,14 +12,17 @@ import { RootComponent } from './components/zone/root.component';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RootComponent],
-  template: `<h1>ZONE.JS</h1>
+  template: `<div>
+      <button (click)="goTo('')">Zone</button>
+      <button (click)="goTo('zoneless')">Zoneless</button>
+      <button (click)="goTo('dynamic')">Dynamic</button>
+      <button (click)="runZone()">run zone JS</button>
+    </div>
     <main class="tree">
       <div class="content">
         <router-outlet />
       </div>
-    </main>
-
-    <button (click)="runZone()">run zone JS</button>`,
+    </main>`,
 })
 export class AppComponent {
   @ViewChild('parentCcontainer', { read: ViewContainerRef })
